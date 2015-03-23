@@ -20,8 +20,10 @@ Author: Spencer Bravo <spencer@codeshrub.com>"
 resource_check() {
 	resources=("aircrack-ng" "airmon-ng" "airodump-ng")
 	for app in "${resources[@]}"; do
-		if [[ "which $app" == " " ]]; then
+		check="$(which $app)"
+		if [[ $check == "" ]]; then
 			echo $app "is gone";
+			$app="gone"
 		fi
 	done;
 }
