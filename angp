@@ -23,9 +23,27 @@ resource_check() {
 		check="$(which $app)"
 		if [[ $check == "" ]]; then
 			echo $app "is gone";
-			$app="gone"
+			$app"_check"="gone"
+			install_required="yes";
 		fi
-	done;
+	done;	
+	if [[ $install_required == "yes" ]]; then
+		read -p "Would you like us to try to install these resources for you?([y]/n)" resource_install
+		if [[ $resource_install == "y" ]]; then
+			git_check="$(which git)"
+			if [[ $git_check == "" ]]; then
+				read -p "To proceed you must install git, do you want us to install it for you?([y]/n)" git_install
+				if [[ $git_install == "y" ]]; then
+					sudo apt-get install git
+				else
+					echo "exiting..."
+				fi
+			fi
+			git clone https://github.com/aircrack-ng/aircrack-ng.git
+		else
+			echo "if you want to install the aircrack-ng suite on your own, you can get it from https://github.com/aircrack-ng/aircrack-ng";
+		fi
+	fi
 }
 
 prompt() {
