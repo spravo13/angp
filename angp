@@ -7,7 +7,7 @@ Usage: angp [OPTION]
 try 'angp -h' for more information."
 }
 
-angphelp() {
+angp_help() {
 	echo "ANGP(aircrack-ng prompt) $version -GPL v3
 Usage: angp [OPTION]
 
@@ -17,13 +17,27 @@ Usage: angp [OPTION]
 Author: Spencer Bravo <spencer@codeshrub.com>"
 }
 
+resource_check() {
+	resources=("aircrack-ng" "airmon-ng" "airodump-ng")
+	for app in "${resources[@]}"; do
+		if [[ "which $app" == " " ]]; then
+			echo $app "is gone";
+		fi
+	done;
+}
+
+prompt() {
+	resource_check
+	
+
+}
 
 case "$1" in
 	-h|--help)
-		angphelp
+		angp_help
 	;;
 	start)
-		angpprompt
+		prompt
 	;;
 	*)
 		main
