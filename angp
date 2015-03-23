@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+version="v0.1"
+
+main() {
+	echo "ANGP $version -GPL v3
+Usage: angp [OPTION]
+try 'angp -h' for more information."
+}
+
+angphelp() {
+	echo "ANGP(aircrack-ng prompt) $version -GPL v3
+Usage: angp [OPTION]
+
+	-h, --help > shows help/info
+	start > starts the prompts
+
+Author: Spencer Bravo <spencer@codeshrub.com>"
+}
+
+
+case "$1" in
+	-h|--help)
+		angphelp
+	;;
+	start)
+		angpprompt
+	;;
+	*)
+		main
+	;;
+esac
+
