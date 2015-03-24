@@ -50,8 +50,32 @@ resource_check() {
 }
 
 prompt() {
+
 	resource_check
 	
+	sudo airmon-ng >> "/tmp/devices.txt";
+	wc -l "/tmp/devices.txt" >> "/tmp/count.txt"
+	last=$(cat "/tmp/count.txt" | awk '{print $1}')
+
+	dev=5
+	devs=()
+	p="p"
+	while [[ $dev != $last ]]; do 
+		let "num = $dev - 4"
+		device=$(cat "/tmp/devices.txt" | sed -n $dev$p)
+		short_dev=$(cat "/tmp/devices.txt" | sed -n $dev$p | awk '{print $1}')
+		devs=( "${devs[@]}" "$num" )
+		echo $num") "$device
+		let "dev$num = $short_dev"
+		let "dev = $dev + 1"
+	done;
+
+#	for each in "${devs[@]}"; do
+#		echo $each
+#	done
+	
+	rm -rf "/tmp/devices.txt"
+	rm -rf "/tmp/count.txt"
 
 }
 
