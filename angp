@@ -18,6 +18,7 @@ Author: Spencer Bravo <spencer@codeshrub.com>"
 }
 
 resource_check() {
+
 	resources=("aircrack-ng" "airmon-ng" "airodump-ng")
 	for app in "${resources[@]}"; do
 		check="$(which $app)"
@@ -47,23 +48,27 @@ resource_check() {
 			echo "if you want to install the aircrack-ng suite on your own, you can get it from https://github.com/aircrack-ng/aircrack-ng";
 		fi
 	fi
+
 }
 
 prompt() {
 
 	resource_check
 	
-	sudo airmon-ng >> "/tmp/devices.txt";
-	wc -l "/tmp/devices.txt" >> "/tmp/count.txt"
-	last=$(cat "/tmp/count.txt" | awk '{print $1}')
+	dev_file="/tmp/devices.txt"
+	count_file="/tmp/count.txt"
+
+	sudo airmon-ng >> "$dev_file";
+	wc -l "$dev_file" >> "$count_file"
+	last=$(cat "$count_file" | awk '{print $1}')
 
 	dev=5
 	devs=()
 	p="p"
 	while [[ $dev != $last ]]; do 
 		let "num = $dev - 4"
-		device=$(cat "/tmp/devices.txt" | sed -n $dev$p)
-		short_dev=$(cat "/tmp/devices.txt" | sed -n $dev$p | awk '{print $1}')
+		device=$(cat "$dev_file" | sed -n $dev$p)
+		short_dev=$(cat "$dev_file" | sed -n $dev$p | awk '{print $1}')
 		devs=( "${devs[@]}" "$num" )
 		echo $num") "$device
 		let "dev$num = $short_dev"
@@ -74,8 +79,8 @@ prompt() {
 #		echo $each
 #	done
 	
-	rm -rf "/tmp/devices.txt"
-	rm -rf "/tmp/count.txt"
+	rm -rf "$dev_file"
+	rm -rf "$dev_file"
 
 }
 
