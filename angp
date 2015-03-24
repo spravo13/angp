@@ -61,6 +61,7 @@ prompt() {
 	sudo airmon-ng >> "$dev_file";
 	wc -l "$dev_file" >> "$count_file"
 	last=$(cat "$count_file" | awk '{print $1}')
+#	let "last = $count - 1"
 
 	dev=5
 	devs=()
@@ -71,16 +72,22 @@ prompt() {
 		short_dev=$(cat "$dev_file" | sed -n $dev$p | awk '{print $1}')
 		devs=( "${devs[@]}" "$num" )
 		echo $num") "$device
-		let "dev$num = $short_dev"
-		let "dev = $dev + 1"
+		let "dev$num=$short_dev"
+		let "dev=$dev + 1"
 	done;
 
+	read -p "Type the number that coorisponds to the device you want to use[1]" dev_choice
+
+	dev_choice="dev$dev_choice"
+
+	echo $dev_choice
 #	for each in "${devs[@]}"; do
 #		echo $each
 #	done
 	
-	rm -rf "$dev_file"
-	rm -rf "$dev_file"
+	rm -rf "/tmp/devices.txt"
+	rm -rf "/tmp/count.txt"
+	devs=()
 
 }
 
