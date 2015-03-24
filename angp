@@ -39,7 +39,10 @@ resource_check() {
 					echo "exiting..."
 				fi
 			fi
-			git clone https://github.com/aircrack-ng/aircrack-ng.git
+			git clone https://github.com/aircrack-ng/aircrack-ng.git;
+			cd aircrack-ng;
+			make;
+			sudo make install;
 		else
 			echo "if you want to install the aircrack-ng suite on your own, you can get it from https://github.com/aircrack-ng/aircrack-ng";
 		fi
