@@ -8,7 +8,7 @@ try 'angp -h' for more information."
 }
 
 angp_help() {
-	echo "ANGP(aircrack-ng prompt) $version -GPL v3
+	echo "ANGP(Aircrack-NG Prompt) $version -GPL v3
 Usage: angp [OPTION]
 
 	-h, --help > shows help/info
@@ -21,8 +21,10 @@ resource_check() {
 
 	resources=("aircrack-ng" "airmon-ng" "airodump-ng")
 	for app in "${resources[@]}"; do
+		#checks whether the app is present on the machine
 		check="$(which $app)"
 		if [[ $check == "" ]]; then
+			#app is not present
 			echo $app "is gone";
 			$app"_check"="gone"
 			install_required="yes";
@@ -31,6 +33,7 @@ resource_check() {
 	if [[ $install_required == "yes" ]]; then
 		read -p "Would you like us to try to install these resources for you?([y]/n)" resource_install
 		if [[ $resource_install == "y" ]]; then
+			#checks to see if git is installed
 			git_check="$(which git)"
 			if [[ $git_check == "" ]]; then
 				read -p "To proceed you must install git, do you want us to install it for you?([y]/n)" git_install
@@ -40,10 +43,12 @@ resource_check() {
 					echo "exiting..."
 				fi
 			fi
-			git clone https://github.com/aircrack-ng/aircrack-ng.git;
-			cd aircrack-ng;
-			make;
-			sudo make install;
+		#	###NOT TESTED###
+		#	git clone https://github.com/aircrack-ng/aircrack-ng.git;
+		#	cd aircrack-ng;
+		#	make;
+		#	sudo make install;
+		#	################
 		else
 			echo "if you want to install the aircrack-ng suite on your own, you can get it from https://github.com/aircrack-ng/aircrack-ng";
 		fi
@@ -55,22 +60,25 @@ prompt() {
 
 	resource_check
 	
+	#set vars for text files so I don't need to write their names a ton
+	#also gives ability to change them with ease
 	dev_file="/tmp/devices.txt"
 	count_file="/tmp/count.txt"
 
 	sudo airmon-ng >> "$dev_file";
+	#counts number of lines in airmon-ng output
 	wc -l "$dev_file" >> "$count_file"
+	#last declared so it knows when to stop looking at lines(in while loop below)
 	last=$(cat "$count_file" | awk '{print $1}')
 
+	#number of lines before first device or airmon-ng
+	#set it as first dev and then ++ to go to next dev
 	dev=5
-	devices=()
 	while [[ $dev != $last ]]; do 
 		let "num = $dev - 4"
+		#individual device for list to choose from
 		ind_device=$(cat "$dev_file" | sed -n $dev"p")
-		short_dev=$(cat "$dev_file" | sed -n $dev"p" | awk '{print $1}')
-		devices=( "${devices[@]}" "$num" )
 		echo $num") "$ind_device
-		let "dev$num=$short_dev"
 		let "dev=$dev + 1"
 	done;
 
@@ -84,7 +92,6 @@ prompt() {
 	rm -rf "/tmp/devices.txt"
 	rm -rf "/tmp/count.txt"
 	rm -rf "/tmp/dev_on.txt"
-	devices=()
 
 }
 
