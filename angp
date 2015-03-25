@@ -101,11 +101,9 @@ airmon() {
 }
 
 prompt() {
-
 	resource_check
 
 	airmon
-
 }
 
 case "$1" in
