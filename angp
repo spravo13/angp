@@ -61,15 +61,13 @@ prompt() {
 	sudo airmon-ng >> "$dev_file";
 	wc -l "$dev_file" >> "$count_file"
 	last=$(cat "$count_file" | awk '{print $1}')
-#	let "last = $count - 1"
 
 	dev=5
 	devs=()
-	p="p"
 	while [[ $dev != $last ]]; do 
 		let "num = $dev - 4"
-		device=$(cat "$dev_file" | sed -n $dev$p)
-		short_dev=$(cat "$dev_file" | sed -n $dev$p | awk '{print $1}')
+		device=$(cat "$dev_file" | sed -n $dev"p")
+		short_dev=$(cat "$dev_file" | sed -n $dev"p" | awk '{print $1}')
 		devs=( "${devs[@]}" "$num" )
 		echo $num") "$device
 		let "dev$num=$short_dev"
