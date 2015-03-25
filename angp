@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-version="v0.4.3"
+version="v0.4.4"
 
 main() {
 	echo "ANGP $version -GPL v3
@@ -56,9 +56,7 @@ resource_check() {
 
 }
 
-prompt() {
-
-	resource_check
+airmon() {
 
 	#make sure files that will be used don't already exist
 	rm -rf "/tmp/devices.txt"
@@ -92,12 +90,21 @@ prompt() {
 	let "true_dev= $dev_choice + 4"
 	name_dev=$(cat "$dev_file" | sed -n $true_dev"p" | awk '{print $1}')
 
+	#start monitor mode on device selected
 	sudo airmon-ng start $name_dev >> "/tmp/dev_on.txt"
 
 	#remove the files used to keep track of things
 	rm -rf "/tmp/devices.txt"
 	rm -rf "/tmp/count.txt"
 	rm -rf "/tmp/dev_on.txt"
+
+}
+
+prompt() {
+
+	resource_check
+
+	airmon
 
 }
 
