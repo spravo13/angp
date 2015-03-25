@@ -76,22 +76,11 @@ prompt() {
 
 	read -p "Type the number that coorisponds to the device you want to use[1]" dev_choice
 
-	dev_choice_update="dev_choice$dev_choice"
-
-	echo $dev_choice_update
-	echo dev$dev_choice
 	let "true_dev= $dev_choice + 4"
-	echo $true_dev
 	name_dev=$(cat "$dev_file" | sed -n $true_dev"p" | awk '{print $1}')
-	echo $name_dev
 
-	sudo airmon-ng start $name_dev
+	sudo airmon-ng start $name_dev >> "/tmp/dev_on.txt"
 
-
-#	for each in "${devs[@]}"; do
-#		echo $each
-#	done
-	
 	rm -rf "/tmp/devices.txt"
 	rm -rf "/tmp/count.txt"
 	devices=()
