@@ -59,7 +59,12 @@ resource_check() {
 prompt() {
 
 	resource_check
-	
+
+	#make sure files that will be used don't already exist
+	rm -rf "/tmp/devices.txt"
+	rm -rf "/tmp/count.txt"
+	rm -rf "/tmp/dev_on.txt"
+
 	#set vars for text files so I don't need to write their names a ton
 	#also gives ability to change them with ease
 	dev_file="/tmp/devices.txt"
@@ -89,6 +94,7 @@ prompt() {
 
 	sudo airmon-ng start $name_dev >> "/tmp/dev_on.txt"
 
+	#remove the files used to keep track of things
 	rm -rf "/tmp/devices.txt"
 	rm -rf "/tmp/count.txt"
 	rm -rf "/tmp/dev_on.txt"
