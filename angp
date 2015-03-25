@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-version="v0.4.4"
+version="v0.4.5"
 
 main() {
 	echo "ANGP $version -GPL v3
@@ -89,10 +89,13 @@ airmon() {
 
 	let "true_dev= $dev_choice + 4"
 	name_dev=$(cat "$dev_file" | sed -n $true_dev"p" | awk '{print $1}')
-
-	#start monitor mode on device selected
-	sudo airmon-ng start $name_dev >> "/tmp/dev_on.txt"
-
+	
+	if [[ $name_dev == "" ]]; then
+		echo "That device does not exist"
+	else
+		#start monitor mode on device selected
+		sudo airmon-ng start $name_dev >> "/tmp/dev_on.txt"
+	fi
 	#remove the files used to keep track of things
 	rm -rf "/tmp/devices.txt"
 	rm -rf "/tmp/count.txt"
