@@ -25,11 +25,11 @@ resource_check() {
 		check="$(which $app)"
 		if [[ $check == "" ]]; then
 			#app is not present
-			echo $app "is gone";
+			echo $app "is gone"
 			$app"_check"="gone"
-			install_required="yes";
+			install_required="yes"
 		fi
-	done;	
+	done
 	if [[ $install_required == "yes" ]]; then
 		read -p "Would you like us to try to install these resources for you?([y]/n)" resource_install
 		if [[ $resource_install == "y" ]]; then
@@ -68,7 +68,7 @@ airmon() {
 	dev_file="/tmp/devices.txt"
 	count_file="/tmp/count.txt"
 
-	sudo airmon-ng >> "$dev_file";
+	sudo airmon-ng >> "$dev_file"
 	#counts number of lines in airmon-ng output
 	wc -l "$dev_file" >> "$count_file"
 	#last declared so it knows when to stop looking at lines(in while loop below)
@@ -83,7 +83,7 @@ airmon() {
 		ind_device=$(cat "$dev_file" | sed -n $dev"p")
 		echo $num") "$ind_device
 		let "dev=$dev + 1"
-	done;
+	done
 
 	read -p "Type the number that coorisponds to the device you want to use[1]" dev_choice
 
@@ -103,10 +103,20 @@ airmon() {
 
 }
 
+#airodump() {
+
+#needs to be the monitor mode device
+#	sudo airodump-ng $name_dev
+
+#}
+
 prompt() {
 	resource_check
 
 	airmon
+
+#	airodump
+
 }
 
 case "$1" in
