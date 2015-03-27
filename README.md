@@ -9,7 +9,8 @@ A bash script to help make aircrack-ng easier to use
 
 ## Installation
 First clone the repository and then all you need to do is to move the `angp` file to somewhere in your `$PATH`.
-The first time you run the script, if you don't have the neccasary prerequisites, it will guide you through aquiring them.
+The first time you run the script, it will check if you have the neccasary prerequisites.
+You will need the aircrack suite, which you can aquire from <a href="https://github.com/aircrack-ng/aircrack-ng" target="_blank">https://github.com/aircrack-ng/aircrack-ng</a>.
 
 ## Contributing
 
