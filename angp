@@ -76,6 +76,11 @@ airmon() {
 		#start monitor mode on device selected
 		sudo airmon-ng start $name_dev >> "/tmp/dev_on.txt"
 	fi
+	
+	monitor_device=$(cat "/tmp/dev_on.txt" | grep '(monitor mode enabled on ' | awk '{print $5}' | cut -b-4)
+
+	echo $monitor_device
+
 	#remove the files used to keep track of things
 	rm -rf "/tmp/devices.txt"
 	rm -rf "/tmp/count.txt"
