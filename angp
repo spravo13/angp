@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-version="v0.4.5"
+version="v0.4.6"
 
 main() {
 	echo "ANGP $version -GPL v3
