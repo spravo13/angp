@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-version="v0.4.6"
+version="v0.5"
 
 main() {
 	echo "ANGP $version -GPL v3
@@ -31,7 +31,7 @@ resource_check() {
 		fi
 	done
 	if [[ $install_required == "yes" ]]; then
-		echo "The aircrack-ng suite is neccasary to use this tool, you can get it from https://github.com/aircrack-ng/aircrack-ng";
+		echo "The aircrack-ng suite is necessary to use this tool, you can get it from https://github.com/aircrack-ng/aircrack-ng";
 	fi
 
 }
@@ -81,6 +81,16 @@ airmon() {
 
 	echo $monitor_device
 
+	#remove variables
+	unset dev
+	unset last
+	unset num
+	unset ind_device
+	unset dev_file
+	unset true_dev
+	unset dev_choice
+	unset name_dev
+
 	#remove the files used to keep track of things
 	rm -rf "/tmp/devices.txt"
 	rm -rf "/tmp/count.txt"
@@ -88,19 +98,28 @@ airmon() {
 
 }
 
-#airodump() {
+airodump() {
 
-#needs to be the monitor mode device
-#	sudo airodump-ng $name_dev
+	read -p "This tool will scan networks around you. are you sure you want to do this?([y]/n)" scan_confirm
+	if [[ $scan_confirm == y || $scan_confirm == "" ]]; then	
 
-#}
+		#produces errors
+		#trying make it run, close, and continue origanol script
+#		sudo airodump-ng $monitor_device -w "/tmp/scan.txt" & sleep 20; kill $!
+		################
+		
+		sudo rm -rf /tmp/scan.*
+	fi
+
+	unset scan_confirm
+}
 
 prompt() {
 	resource_check
 
 	airmon
 
-#	airodump
+	airodump
 
 }
 
