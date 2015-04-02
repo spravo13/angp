@@ -94,8 +94,9 @@ airodump() {
 	if [[ $scan_confirm == y || $scan_confirm == "" ]]; then
 
 		sudo screen -AdmS airodump airodump-ng --output-format csv --write /tmp/scan $monitor_device
-
-
+		echo "scanning networks around you..."
+		sleep 35s && sudo killall screen
+		
 		sudo rm -rf /tmp/scan*
 	fi
 
