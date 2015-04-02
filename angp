@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-version="v0.5"
+version="v0.5.1"
 
 main() {
 	echo "ANGP $version -GPL v3
@@ -67,6 +67,10 @@ airmon() {
 
 	read -p "Type the number that coorisponds to the device you want to use[1]" dev_choice
 
+	if [[ $dev_choice == "" ]]; then
+		dev_choice="1"
+	fi
+
 	let "true_dev= $dev_choice + 4"
 	name_dev=$(cat "$dev_file" | sed -n $true_dev"p" | awk '{print $1}')
 	
@@ -101,16 +105,17 @@ airmon() {
 airodump() {
 
 	read -p "This tool will scan networks around you. are you sure you want to do this?([y]/n)" scan_confirm
-	if [[ $scan_confirm == y || $scan_confirm == "" ]]; then	
+	if [[ $scan_confirm == y || $scan_confirm == "" ]]; then
 
-		#produces errors
-		#trying make it run, close, and continue origanol script
-#		sudo airodump-ng $monitor_device -w "/tmp/scan.txt" & sleep 20; kill $!
-		################
-		
-		sudo rm -rf /tmp/scan.*
+		sudo screen -AdmS airodump airodump-ng --output-format csv --write /tmp/scan $monitor_device
+
+
+
+		sudo rm -rf /tmp/scan*
 	fi
 
+
+	
 	unset scan_confirm
 }
 
@@ -121,6 +126,8 @@ prompt() {
 
 	airodump
 
+	sudo airmon-ng stop $monitor_device >> "/tmp/stopdev.txt"
+	rm -rf "/tmp/stopdev.txt"
 }
 
 case "$1" in
