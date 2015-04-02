@@ -85,20 +85,6 @@ airmon() {
 
 	echo $monitor_device
 
-	#remove variables
-	unset dev
-	unset last
-	unset num
-	unset ind_device
-	unset dev_file
-	unset true_dev
-	unset dev_choice
-	unset name_dev
-
-	#remove the files used to keep track of things
-	rm -rf "/tmp/devices.txt"
-	rm -rf "/tmp/count.txt"
-	rm -rf "/tmp/dev_on.txt"
 
 }
 
@@ -110,24 +96,41 @@ airodump() {
 		sudo screen -AdmS airodump airodump-ng --output-format csv --write /tmp/scan $monitor_device
 
 
-
 		sudo rm -rf /tmp/scan*
 	fi
 
 
 	
-	unset scan_confirm
 }
 
 prompt() {
+
 	resource_check
+
+	unset resources
+	unset install_required
 
 	airmon
 
+	rm -rf "/tmp/devices.txt"
+	rm -rf "/tmp/count.txt"
+	rm -rf "/tmp/dev_on.txt"
+	
+	unset dev
+	unset last
+	unset num
+	unset ind_device
+	unset dev_file
+	unset true_dev
+	unset dev_choice
+	unset name_dev
+	
 	airodump
 
 	sudo airmon-ng stop $monitor_device >> "/tmp/stopdev.txt"
 	rm -rf "/tmp/stopdev.txt"
+	unset scan_confirm
+	
 }
 
 case "$1" in
