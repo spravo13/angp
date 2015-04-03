@@ -31,7 +31,7 @@ resource_check() {
 		fi
 	done
 	if [[ $install_required == "yes" ]]; then
-		echo "The aircrack-ng suite is necessary to use this tool, you can get it from https://github.com/aircrack-ng/aircrack-ng";
+		echo "The above tools are necessary to use this script, you can get them from https://github.com/aircrack-ng/aircrack-ng";
 	fi
 
 }
@@ -96,7 +96,7 @@ airodump() {
 		echo "scanning networks around you..."
 		sleep 35s && sudo killall screen
 
-		echo "done";
+		echo "done"
 		sudo rm -rf /tmp/scan*
 	fi
 
@@ -129,7 +129,10 @@ prompt() {
 	sudo airmon-ng stop $monitor_device >> "/tmp/stopdev.txt"
 	rm -rf "/tmp/stopdev.txt"
 	unset scan_confirm
-	
+
+
+
+	unset monitor_device
 }
 
 case "$1" in
