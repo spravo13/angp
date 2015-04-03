@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-version="v0.5.1"
+version="v0.5.2"
 
 main() {
 	echo "ANGP $version -GPL v3
@@ -85,7 +85,6 @@ airmon() {
 
 	echo $monitor_device
 
-
 }
 
 airodump() {
@@ -96,12 +95,11 @@ airodump() {
 		sudo screen -AdmS airodump airodump-ng --output-format csv --write /tmp/scan $monitor_device
 		echo "scanning networks around you..."
 		sleep 35s && sudo killall screen
-		
+
+		echo "done";
 		sudo rm -rf /tmp/scan*
 	fi
 
-
-	
 }
 
 prompt() {
