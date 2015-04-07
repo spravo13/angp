@@ -94,10 +94,15 @@ airodump() {
 
 		sudo screen -AdmS airodump airodump-ng --output-format csv --write /tmp/scan $monitor_device
 		echo "scanning networks around you..."
-		sleep 35s && sudo killall screen
+		echo "This will likely take just over a minute"
+		sleep 70s && sudo killall screen
+
+		
+		cat /tmp/scan-01.csv | while read line; do
+		$line | awk -F "\"*,\"*" '{print $14}' >> "/tmp/networks.txt"
+		done
 
 		echo "done"
-		sudo rm -rf /tmp/scan*
 	fi
 
 }
@@ -126,10 +131,13 @@ prompt() {
 	
 	airodump
 
-	sudo airmon-ng stop $monitor_device >> "/tmp/stopdev.txt"
 	rm -rf "/tmp/stopdev.txt"
-	unset scan_confirm
+	rm -rf "/tmp/networks.txt"
 
+	sudo airmon-ng stop $monitor_device >> "/tmp/stopdev.txt"
+	sudo rm -rf /tmp/scan*
+	unset scan_confirm
+	
 
 
 	unset monitor_device
