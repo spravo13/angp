@@ -103,6 +103,10 @@ airodump() {
 		done
 
 		echo "done"
+
+		rm -rf "/tmp/stopdev.txt"
+		rm -rf "/tmp/networks.txt"
+	
 	fi
 
 }
@@ -131,15 +135,10 @@ prompt() {
 	
 	airodump
 
-	rm -rf "/tmp/stopdev.txt"
-	rm -rf "/tmp/networks.txt"
-
 	sudo airmon-ng stop $monitor_device >> "/tmp/stopdev.txt"
 	sudo rm -rf /tmp/scan*
+
 	unset scan_confirm
-	
-
-
 	unset monitor_device
 }
 
